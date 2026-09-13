@@ -7,6 +7,10 @@ const {
 } = require("./createTableOfContents");
 
 const {
+     calculateTableOfContentsPages 
+} = require("./calculateTableOfContentsPages")
+
+const {
     createSummaryPDF
 } = require("./createSummaryPDF");
 
@@ -287,6 +291,16 @@ function createPdf(report) {
     ];
 
     toc.unshift(...constantText);
+
+    const tocPageCount =
+    calculateTableOfContentsPages(
+        doc,
+        toc,
+        regularFont,
+        boldFont
+    );
+
+    console.log("TOC pages:", tocPageCount);
 
 
     doc.switchToPage(tocPage);

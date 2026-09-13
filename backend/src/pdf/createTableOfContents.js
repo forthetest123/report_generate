@@ -2,23 +2,29 @@ function createTableOfContents(
     doc,
     items,
     regularFont,
-    boldFont
+    boldFont,
+    isContinuation = false
 ) {
+
 
     // =========================
     // หัวข้อสารบัญ
     // =========================
 
-    doc
-        .font(boldFont)
-        .fontSize(20)
-        .text("สารบัญ", {
-            align: "center"
-        });
+    if (!isContinuation) {
 
-    doc.moveDown(1);
+        doc
+            .font(boldFont)
+            .fontSize(20)
+            .text("สารบัญ", {
+                align: "center"
+            });
 
-        // =========================
+        doc.moveDown(1);
+    }
+
+
+    // =========================
     // ตำแหน่งคอลัมน์
     // =========================
 
@@ -40,13 +46,16 @@ function createTableOfContents(
     // หัวตาราง
     // =========================
 
+    const headerY = doc.y;
+
+
     doc
         .font(boldFont)
         .fontSize(14)
         .text(
             "เรื่อง",
             leftX,
-            doc.y,
+            headerY,
             {
                 width: titleWidth,
                 align: "left"
@@ -60,7 +69,7 @@ function createTableOfContents(
         .text(
             "หน้า",
             pageNumberX,
-            doc.y - 17,
+            headerY,
             {
                 width: 40,
                 align: "right",
@@ -69,31 +78,38 @@ function createTableOfContents(
         );
 
 
-    doc.moveDown(0.5);
+    doc.y =
+        headerY + 25;
 
 
     // =========================
     // รายการ
     // =========================
 
-    items.forEach((item) => {
+    for (
+        let index = 0;
+        index < items.length;
+        index++
+    ) {
 
-        const leftX =
+        const item =
+            items[index];
+
+
+        // =========================
+        // ตำแหน่งหัวข้อ
+        // =========================
+
+        const itemLeftX =
             item.level === "sub"
                 ? 100
-                : 72;
+                : leftX;
 
 
-        const pageNumberX =
-            doc.page.width - 72 - 40;
-
-
-        const titleWidth =
-            pageNumberX - leftX - 15;
-
-
-        const itemY =
-            doc.y;
+        const itemTitleWidth =
+            pageNumberX
+            - itemLeftX
+            - 15;
 
 
         // =========================
@@ -106,17 +122,75 @@ function createTableOfContents(
                 : regularFont;
 
 
+        const fontSize = 14;
+
+
         // =========================
-        // หัวข้อ
+        // คำนวณความสูง
+        // =========================
+
+        const titleHeight =
+            doc.heightOfString(
+                item.title,
+                {
+                    width: itemTitleWidth,
+                    font,
+                    fontSize
+                }
+            );
+
+
+        const itemHeight =
+            titleHeight + 5;
+
+
+        // =========================
+        // พื้นที่กระดาษที่เหลือ
+        // =========================
+
+        const availableHeight =
+            doc.page.height
+            - doc.page.margins.bottom
+            - doc.y;
+
+
+        // =========================
+        // ถ้าพื้นที่ไม่พอ
+        // =========================
+
+        if (
+            itemHeight >
+            availableHeight
+        ) {
+
+            return items.slice(index);
+        }
+
+
+        // =========================
+        // ตำแหน่ง Y
+        // =========================
+
+        const itemY =
+            doc.y;
+
+
+        // =========================
+        // ชื่อหัวข้อ
         // =========================
 
         doc
             .font(font)
-            .fontSize(14)
-            .text(item.title,leftX,itemY, {
-                width: titleWidth,
-                align: "left"
-            });
+            .fontSize(fontSize)
+            .text(
+                item.title,
+                itemLeftX,
+                itemY,
+                {
+                    width: itemTitleWidth,
+                    align: "left"
+                }
+            );
 
 
         // =========================
@@ -125,29 +199,35 @@ function createTableOfContents(
 
         doc
             .font(regularFont)
-            .fontSize(14)
-            .text(String(item.page),pageNumberX,itemY, {
-                width: 40,
-                align: "right",
-                lineBreak: false
-            });
+            .fontSize(fontSize)
+            .text(
+                String(item.page),
+                pageNumberX,
+                itemY,
+                {
+                    width: 40,
+                    align: "right",
+                    lineBreak: false
+                }
+            );
 
 
         // =========================
-        // ขยับรายการถัดไป
+        // ขยับไปยังรายการถัดไป
         // =========================
-
-        const titleHeight =
-            doc.heightOfString(item.title, {
-                width: titleWidth,
-                font,
-                fontSize: 14
-            });
-
 
         doc.y =
-            itemY + titleHeight + 5;
-    });
+            itemY
+            + titleHeight
+            + 5;
+    }
+
+
+    // =========================
+    // วาดครบทุก item แล้ว
+    // =========================
+
+    return [];
 }
 
 
