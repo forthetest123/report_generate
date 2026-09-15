@@ -1,14 +1,20 @@
 const PDFDocument = require("pdfkit");
-const { createParagraphsPDF } = require("./createParagraphsPDF");
-const { createBodyPDF } = require("./createBodyPDF");
-const { addPageNumbers } = require("./addPageNumbers");
+
+const {
+    createParagraphsPDF
+} = require("./createParagraphsPDF");
+
+const {
+    createBodyPDF
+} = require("./createBodyPDF");
+
+const {
+    addPageNumbers
+} = require("./addPageNumbers");
+
 const {
     createTableOfContents
 } = require("./createTableOfContents");
-
-const {
-     calculateTableOfContentsPages 
-} = require("./calculateTableOfContentsPages")
 
 const {
     createSummaryPDF
@@ -18,10 +24,21 @@ const {
     createBibliographyPDF
 } = require("./createBibliographyPDF");
 
-const path = require("path");
-const { subscribe } = require("diagnostics_channel");
+const {
+    calculateTableOfContentsPages
+} = require("./calculateTableOfContentsPages");
 
-function createPdf(report) {
+const path = require("path");
+
+
+// =====================================================
+// สร้าง PDF
+// =====================================================
+
+function buildPdf(
+    report,
+    tocPageCount
+) {
 
     const doc = new PDFDocument({
         size: "A4",
@@ -34,9 +51,10 @@ function createPdf(report) {
         }
     });
 
-    // =========================
+
+    // =================================================
     // Fonts
-    // =========================
+    // =================================================
 
     const regularFont = path.join(
         __dirname,
@@ -53,20 +71,23 @@ function createPdf(report) {
     );
 
 
-    // =========================
+    // =================================================
     // หน้าปก
-    // =========================
+    // =================================================
 
-    // รายงาน
     doc.font(boldFont)
         .fontSize(25)
-        .text("รายงาน", 72, 140, {
-            width: 451,
-            align: "center"
-        });
+        .text(
+            "รายงาน",
+            72,
+            140,
+            {
+                width: 451,
+                align: "center"
+            }
+        );
 
 
-    // เรื่อง
     doc.font(regularFont)
         .fontSize(17)
         .text(
@@ -80,16 +101,19 @@ function createPdf(report) {
         );
 
 
-    // นำเสนอ
     doc.font(boldFont)
         .fontSize(18)
-        .text("นำเสนอ", 72, 270, {
-            width: 451,
-            align: "center"
-        });
+        .text(
+            "นำเสนอ",
+            72,
+            270,
+            {
+                width: 451,
+                align: "center"
+            }
+        );
 
 
-    // อาจารย์
     doc.font(regularFont)
         .fontSize(17)
         .text(
@@ -103,16 +127,19 @@ function createPdf(report) {
         );
 
 
-    // จัดทำโดย
     doc.font(regularFont)
         .fontSize(18)
-        .text("จัดทำโดย", 72, 365, {
-            width: 451,
-            align: "center"
-        });
+        .text(
+            "จัดทำโดย",
+            72,
+            365,
+            {
+                width: 451,
+                align: "center"
+            }
+        );
 
 
-    // ผู้จัดทำ
     doc.font(regularFont)
         .fontSize(17)
         .text(
@@ -126,8 +153,6 @@ function createPdf(report) {
         );
 
 
-    // ระดับชั้น
-    // ระดับชั้น
     doc.font(regularFont)
         .fontSize(17)
         .text(
@@ -140,7 +165,7 @@ function createPdf(report) {
             }
         );
 
-    // วิชา
+
     doc.font(regularFont)
         .fontSize(17)
         .text(
@@ -153,7 +178,7 @@ function createPdf(report) {
             }
         );
 
-    // ภาคเรียน
+
     doc.font(regularFont)
         .fontSize(18)
         .text(
@@ -166,7 +191,7 @@ function createPdf(report) {
             }
         );
 
-    // วิทยาลัย
+
     doc.font(regularFont)
         .fontSize(18)
         .text(
@@ -180,23 +205,13 @@ function createPdf(report) {
         );
 
 
-
-    // =========================
-    // หน้าถัดไป
-    // =========================
-
-
-
-
-    // =========================
+    // =================================================
     // คำนำ
-    // =========================
+    // =================================================
 
     doc.addPage();
 
-    // หัวข้อ
-    doc
-        .font(boldFont)
+    doc.font(boldFont)
         .fontSize(20)
         .text("คำนำ", {
             align: "center"
@@ -204,31 +219,42 @@ function createPdf(report) {
 
     doc.moveDown(0.5);
 
+    createParagraphsPDF(
+        doc,
+        report.preface,
+        {
+            fontSize: 16,
+            lineGap: 3,
+            indent: 30,
+            align: "left"
+        },
+        regularFont
+    );
+
+
+    // =================================================
+    // สารบัญ
+    // =================================================
+
+    /*
+        จองหน้าสารบัญตามจำนวนที่คำนวณได้
+    */
+
+    const tocStartPage =
+        doc.bufferedPageRange().start
+        + doc.bufferedPageRange().count;
+
+
+    for (let i = 0; i < tocPageCount; i++) {
+
+        doc.addPage();
+
+    }
+
+
+    // =================================================
     // เนื้อหา
-    createParagraphsPDF(doc, report.preface, {
-        fontSize: 16,
-        lineGap: 3,
-        indent: 30,
-        align: "left"
-    },regularFont);
-
-    doc.addPage();
-
-    // เริ่มสารบัญ
-
-    const tocRange =
-        doc.bufferedPageRange();
-
-    const tocPage =
-        tocRange.start + tocRange.count - 1;
-    
-    // จบสารบัญ
-
-    // =========================
-    // เนื้อหา
-    // =========================
-
-    doc.addPage();
+    // =================================================
 
     const toc = createBodyPDF(
         doc,
@@ -237,45 +263,48 @@ function createPdf(report) {
         boldFont
     );
 
-    // =========================
+
+    // =================================================
     // สรุป
-    // =========================
+    // =================================================
 
     doc.addPage();
 
-    const summaryItem = createSummaryPDF(
-        doc,
-        report.summary,
-        regularFont,
-        boldFont
-    );
+    const summaryItem =
+        createSummaryPDF(
+            doc,
+            report.summary,
+            regularFont,
+            boldFont
+        );
 
-    if(summaryItem){
+    if (summaryItem) {
         toc.push(summaryItem);
     }
 
 
-    // =========================
+    // =================================================
     // บรรณานุกรม
-    // =========================
+    // =================================================
 
     doc.addPage();
 
-    const bibliographyItem = createBibliographyPDF(
-        doc,
-        report.bibliography,
-        regularFont,
-        boldFont
-    );
+    const bibliographyItem =
+        createBibliographyPDF(
+            doc,
+            report.bibliography,
+            regularFont,
+            boldFont
+        );
 
-    if(bibliographyItem){
+    if (bibliographyItem) {
         toc.push(bibliographyItem);
     }
 
 
-    // =========================
-    // เลขหน้า
-    // =========================
+    // =================================================
+    // เพิ่มรายการคงที่
+    // =================================================
 
     const constantText = [
         {
@@ -290,35 +319,128 @@ function createPdf(report) {
         }
     ];
 
+
     toc.unshift(...constantText);
 
-    const tocPageCount =
-    calculateTableOfContentsPages(
+
+    // =================================================
+    // วาดสารบัญ
+    // =================================================
+
+    for (let i = 0; i < tocPageCount; i++) {
+
+        doc.switchToPage(
+            tocStartPage + i
+        );
+
+        doc.y =
+            doc.page.margins.top;
+
+
+        createTableOfContents(
+            doc,
+            toc,
+            regularFont,
+            boldFont,
+            i > 0
+        );
+    }
+
+
+    // =================================================
+    // เลขหน้า
+    // =================================================
+
+    addPageNumbers(
         doc,
-        toc,
-        regularFont,
-        boldFont
+        regularFont
     );
 
-    console.log("TOC pages:", tocPageCount);
 
-
-    doc.switchToPage(tocPage);
-
-    doc.y = doc.page.margins.top;
-
-    createTableOfContents(
+    return {
         doc,
-        toc,
-        regularFont,
-        boldFont
-    );
-
-    addPageNumbers(doc, regularFont);
-
-
-    return doc;
+        toc
+    };
 }
+
+
+// =====================================================
+// createPdf
+// =====================================================
+
+function createPdf(report) {
+
+    // -----------------------------------------------
+    // รอบแรก
+    // -----------------------------------------------
+
+    let tocPageCount = 1;
+
+
+    // -----------------------------------------------
+    // คำนวณจนกว่าจำนวนหน้าจะนิ่ง
+    // -----------------------------------------------
+
+    for (let i = 0; i < 5; i++) {
+
+        const result =
+            buildPdf(
+                report,
+                tocPageCount
+            );
+
+
+        const newTocPageCount =
+            calculateTableOfContentsPages(
+                result.doc,
+                result.toc,
+                path.join(
+                    __dirname,
+                    "fonts",
+                    "Sarabun",
+                    "Sarabun-Regular.ttf"
+                ),
+                path.join(
+                    __dirname,
+                    "fonts",
+                    "Sarabun",
+                    "Sarabun-Bold.ttf"
+                )
+            );
+
+
+        console.log(
+            `TOC calculation: ${tocPageCount} -> ${newTocPageCount}`
+        );
+
+
+        // -------------------------------------------
+        // จำนวนหน้าไม่เปลี่ยนแล้ว
+        // -------------------------------------------
+
+        if (
+            newTocPageCount === tocPageCount
+        ) {
+
+            return result.doc;
+
+        }
+
+
+        // -------------------------------------------
+        // ต้องคำนวณใหม่
+        // -------------------------------------------
+
+        tocPageCount =
+            newTocPageCount;
+    }
+
+
+    throw new Error(
+        "ไม่สามารถคำนวณจำนวนหน้าสารบัญให้คงที่ได้"
+    );
+}
+
 
 module.exports = {
     createPdf
