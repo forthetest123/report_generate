@@ -9,7 +9,8 @@ function createBodyPDF(
     doc,
     sections,
     regularFont,
-    boldFont
+    boldFont,
+    tocPageCount
 ) {
 
     const toc = [];
@@ -52,27 +53,19 @@ function createBodyPDF(
         );
 
 
-        const startPage =
-            doc.bufferedPageRange().count;
-
         const range = doc.bufferedPageRange();
 
         const currentPageIndex =
             range.start + range.count - 1;
 
         const displayPage =
-            currentPageIndex - 2;
+            currentPageIndex - 2 - (tocPageCount - 1);
 
-
-        // doc
-        //     .font(boldFont)
-        //     .fontSize(20)
-        //     .text(sectionTitle, {
-        //         align: "center"
-        //     });
-
-
-        // doc.moveDown(0.5);
+        toc.push({
+            title: section.title,
+            page: displayPage,
+            level: "main"
+        });
 
         createHeadingPDF(
             doc,
@@ -153,7 +146,7 @@ function createBodyPDF(
                             range.start + range.count - 1;
 
                         const displayPage =
-                            currentPageIndex - 2;
+                            currentPageIndex - 2 - (tocPageCount - 1);
 
                         toc.push({
                             title: subsection.title,
@@ -161,19 +154,6 @@ function createBodyPDF(
                             level: "sub"
                         });
 
-
-                        // doc
-                        //     .font(boldFont)
-                        //     .fontSize(18)
-                        //     .text(
-                        //         subsection.title,
-                        //         {
-                        //             align: "left"
-                        //         }
-                        //     );
-
-
-                        // doc.moveDown(0.3);
 
                         createHeadingPDF(
                             doc,
@@ -216,22 +196,6 @@ function createBodyPDF(
         // =========================
         // หน้าจบของหัวข้อ
         // =========================
-
-        const endPage =
-            doc.bufferedPageRange().count;
-
-
-        // toc.push({
-        //     title: section.title,
-        //     startPage,
-        //     endPage
-        // });
-
-        toc.push({
-            title: section.title,
-            page: displayPage,
-            level: "main"
-        });
 
 
         doc.moveDown(1);

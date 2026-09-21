@@ -251,6 +251,8 @@ function buildPdf(
 
     }
 
+    doc.addPage();
+
 
     // =================================================
     // เนื้อหา
@@ -260,7 +262,8 @@ function buildPdf(
         doc,
         report.sections,
         regularFont,
-        boldFont
+        boldFont,
+        tocPageCount
     );
 
 
@@ -275,7 +278,8 @@ function buildPdf(
             doc,
             report.summary,
             regularFont,
-            boldFont
+            boldFont,
+            tocPageCount
         );
 
     if (summaryItem) {
@@ -294,7 +298,8 @@ function buildPdf(
             doc,
             report.bibliography,
             regularFont,
-            boldFont
+            boldFont,
+            tocPageCount
         );
 
     if (bibliographyItem) {
@@ -327,6 +332,8 @@ function buildPdf(
     // วาดสารบัญ
     // =================================================
 
+    let remainingItems = toc;
+
     for (let i = 0; i < tocPageCount; i++) {
 
         doc.switchToPage(
@@ -337,13 +344,14 @@ function buildPdf(
             doc.page.margins.top;
 
 
-        createTableOfContents(
-            doc,
-            toc,
-            regularFont,
-            boldFont,
-            i > 0
-        );
+        remainingItems =
+            createTableOfContents(
+                doc,
+                remainingItems,
+                regularFont,
+                boldFont,
+                i > 0
+            );
     }
 
 
@@ -353,7 +361,8 @@ function buildPdf(
 
     addPageNumbers(
         doc,
-        regularFont
+        regularFont,
+        tocPageCount
     );
 
 

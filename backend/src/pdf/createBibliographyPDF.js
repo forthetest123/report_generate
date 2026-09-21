@@ -2,7 +2,8 @@ function createBibliographyPDF(
     doc,
     bibliography,
     regularFont,
-    boldFont
+    boldFont,
+    tocPageCount
 ) {
 
     if (!bibliography || !bibliography.length) {
@@ -20,7 +21,7 @@ function createBibliographyPDF(
         range.start + range.count - 1;
 
     const displayPage =
-        currentPageIndex - 2;
+        currentPageIndex - 2 - (tocPageCount - 1);
 
     // =========================
     // หัวข้อ

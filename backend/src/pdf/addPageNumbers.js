@@ -11,35 +11,93 @@ const THAI_PAGE_NUMBERS = [
     "ญ"
 ];
 
-function addPageNumbers(doc, regularFont) {
 
-    const range = doc.bufferedPageRange();
+function addPageNumbers(
+    doc,
+    regularFont,
+    tocPageCount
+) {
 
-    for (let i = 0; i < range.count; i++) {
+    const range =
+        doc.bufferedPageRange();
 
-        doc.switchToPage(range.start + i);
 
-        // หน้าปก = ไม่ใส่เลข
+    for (
+        let i = 0;
+        i < range.count;
+        i++
+    ) {
+
+        doc.switchToPage(
+            range.start + i
+        );
+
+
+        // =====================================
+        // หน้าปก
+        // =====================================
+
         if (i === 0) {
             continue;
         }
 
+
         let pageNumber;
 
-        // หน้า 2 = ก
-        // หน้า 3 = ข
+
+        // =====================================
+        // คำนำ
+        // =====================================
+
         if (i === 1) {
-            pageNumber = "ก";
+
+            pageNumber =
+                THAI_PAGE_NUMBERS[0];
+
         }
 
-        else if (i === 2) {
-            pageNumber = "ข";
+
+        // =====================================
+        // สารบัญ
+        // =====================================
+
+        else if (
+            i >= 2 &&
+            i < 2 + tocPageCount
+        ) {
+
+            const tocIndex =
+                i - 2;
+
+            pageNumber =
+                THAI_PAGE_NUMBERS[
+                    tocIndex + 1
+                ];
+
         }
 
-        // หน้า 4 เป็นต้นไป = 1, 2, 3...
+
+        // =====================================
+        // เนื้อหา
+        // =====================================
+
         else {
-            pageNumber = String(i - 2);
+
+            const bodyPage =
+                i
+                - 2
+                - tocPageCount
+                + 1;
+
+            pageNumber =
+                String(bodyPage);
+
         }
+
+
+        // =====================================
+        // วาดเลขหน้า
+        // =====================================
 
         doc
             .font(regularFont)
@@ -49,13 +107,15 @@ function addPageNumbers(doc, regularFont) {
                 0,
                 25,
                 {
-                    width: doc.page.width - 25,
+                    width:
+                        doc.page.width - 25,
                     align: "right",
                     lineBreak: false
                 }
             );
     }
 }
+
 
 module.exports = {
     addPageNumbers

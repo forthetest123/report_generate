@@ -2,7 +2,8 @@ function createSummaryPDF(
     doc,
     text,
     regularFont,
-    boldFont
+    boldFont,
+    tocPageCount
 ) {
 
     if (!text) return;
@@ -18,7 +19,7 @@ function createSummaryPDF(
         range.start + range.count - 1;
 
     const displayPage =
-        currentPageIndex - 2;
+        currentPageIndex - 2 - (tocPageCount - 1);
 
     // =========================
     // หัวข้อ
