@@ -1,0 +1,23 @@
+.app {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.app-title {
+    text-align: center;
+}
+
+.report-wizard {
+    margin-top: 30px;
+}
+
+.wizard-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.wizard-buttons button {
+    padding: 10px 20px;
+    cursor: pointer;
+}

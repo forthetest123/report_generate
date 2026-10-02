@@ -2,6 +2,8 @@ import { useState , useCallback } from "react";
 import ReportWizard from "../components/ReportWizard";
 import PDFReport from "../services/PDFReport";
 
+import "../styles/report.css"
+
 function Test() {
 
     const [report, setReport] = useState({
@@ -74,8 +76,8 @@ function Test() {
     };
 
     return (
-        <>
-            <h1>ระบบสร้างรายงาน</h1>
+        <div className="app">
+            <h1 className="app-title">ระบบสร้างรายงาน</h1>
 
             <ReportWizard
                 report={report}
@@ -86,7 +88,7 @@ function Test() {
                 onBibliographyChange={handleBibliographyChange}
                 onPDF={handlePDF}
             />
-        </>
+        </div>
     );
 }
 

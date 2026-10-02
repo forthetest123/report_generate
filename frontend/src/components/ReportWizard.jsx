@@ -26,7 +26,7 @@ function ReportWizard({
     };
 
     return (
-        <>
+        <div className="report-wizard">
             {step === 0 && (
                 <ReportForm
                     sendCover={report.cover}
@@ -62,7 +62,7 @@ function ReportWizard({
                 />
             )}
 
-            <div>
+            <div className="wizard-buttons">
 
                 {step > 0 && (
                     <button onClick={handleBack}>
@@ -83,7 +83,7 @@ function ReportWizard({
                 )}
 
             </div>
-        </>
+        </div>
     );
 }
 
