@@ -1,56 +1,91 @@
-import { useState , useEffect } from "react";
-import useFetch from "../hook/useFetch";
-import downloadReport from "../services/downloadReport";
+import { useState , useCallback } from "react";
+import ReportWizard from "../components/ReportWizard";
 import PDFReport from "../services/PDFReport";
 
-function Test(){
-    
-    // const [data , error] = useFetch();
+function Test() {
 
-      const handleDownload = async () => {
-        try {
-        const blob = await downloadReport();
-        const url = URL.createObjectURL(blob);
+    const [report, setReport] = useState({
+        cover: {
+            title: "",
+            teacher: "",
+            student: "",
+            class: "",
+            subject: "",
+            semester: "",
+            year: "",
+            college: ""
+        },
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "report.docx";
-        a.click();
+        preface: "",
 
-        URL.revokeObjectURL(url);
-        } catch (error) {
-        console.error(error);
-        }
+        sections: [],
+
+        summary: "",
+
+        bibliography: []
+    });
+
+    const handleCoverChange = useCallback((cover) => {
+        setReport(prev => ({
+            ...prev,
+            cover: cover
+        }));
+    },[]);
+
+    const handlePrefaceChange = (preface) => {
+        setReport(prev => ({
+            ...prev,
+            preface: preface
+        }));
     };
+
+    const handleSectionsChange = (sections) => {
+        setReport(prev => ({
+            ...prev,
+            sections: sections
+        }));
+    };
+
+    const handleSummaryChange = (summary) => {
+        setReport(prev => ({
+            ...prev,
+            summary: summary
+        }));
+    };
+
+    const handleBibliographyChange = (bibliography)=>{
+        setReport(prev => ({
+            ...prev,
+            bibliography:bibliography
+        }))
+    }
 
     const handlePDF = async () => {
         try {
-        const blob = await PDFReport();
-        const url = URL.createObjectURL(blob);
 
-        window.open(url, "_blank");
+            const blob = await PDFReport(report);
+
+            const url = URL.createObjectURL(blob);
+
+            window.open(url, "_blank");
         } catch (error) {
-        console.error(error);
+            console.error(error);
         }
     };
 
     return (
         <>
+            <h1>ระบบสร้างรายงาน</h1>
 
-            <button onClick={handleDownload}>
-                Download Report
-            </button>      
-
-            <button onClick={handlePDF}>
-                SHOW PDF
-            </button>
-            {/* {error && <p>{error}</p>}
-            {data && (
-                <>
-                    <h1>{data.message}</h1>
-                    <h1>{data.data.title    }</h1>
-                </>
-            )} */}
+            <ReportWizard
+                report={report}
+                onCoverChange={handleCoverChange}
+                onPrefaceChange={handlePrefaceChange}
+                onSectionChange={handleSectionsChange}
+                onSummaryChange={handleSummaryChange}
+                onBibliographyChange={handleBibliographyChange}
+                onPDF={handlePDF}
+            />
         </>
     );
 }

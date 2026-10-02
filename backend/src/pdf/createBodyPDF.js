@@ -22,6 +22,8 @@ function createBodyPDF(
 
     sections.forEach((section) => {
 
+        if (section.title === "") return;
+
         // =========================
         // หัวข้อหลัก
         // =========================
