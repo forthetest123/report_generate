@@ -111,7 +111,6 @@ function createTableOfContents(
             - itemLeftX
             - 15;
 
-
         // =========================
         // Font
         // =========================

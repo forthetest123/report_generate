@@ -1,3 +1,7 @@
+/* =========================
+   APP
+========================= */
+
 .app {
     max-width: 900px;
     margin: 0 auto;
@@ -11,13 +15,537 @@
     margin-top: 30px;
 }
 
+
+/* =========================
+   BASE FORM UI
+========================= */
+
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    background: white;
+    padding: 30px;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.form-input {
+    width: 100%;
+
+    padding: 12px;
+
+    box-sizing: border-box;
+
+    font-size: 16px;
+
+    border: 1px solid #ccc;
+    border-radius: 6px;
+
+    background: white;
+}
+
+.form-input:focus {
+    outline: none;
+
+    border: 2px solid #2563eb;
+}
+
+textarea.form-input {
+    resize: none;
+}
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+    margin-bottom: 10px;
+}
+
+.page-header h2 {
+    margin: 0;
+
+    font-size: 26px;
+}
+
+.page-header p {
+    margin: 6px 0 0;
+
+    color: #666;
+
+    font-size: 15px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.form-button {
+    width: 100%;
+
+    padding: 11px 20px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   SECONDARY BUTTON
+========================= */
+
+.secondary-button {
+    width: 100%;
+
+    padding: 10px 20px;
+
+    border: 1px solid #2563eb;
+    border-radius: 6px;
+
+    background: white;
+
+    color: #2563eb;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.secondary-button:hover {
+    background: #eff6ff;
+}
+
+
+/* =========================
+   TEXT DANGER BUTTON
+========================= */
+
+.text-danger-button {
+    padding: 6px 10px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #dc2626;
+
+    font-size: 14px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.text-danger-button:hover {
+    color: #b91c1c;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   SECTION CARD
+========================= */
+
+.section-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 24px;
+
+    border: 1px solid #ddd;
+    border-radius: 10px;
+
+    background: #f9fafb;
+}
+
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding-bottom: 15px;
+
+    border-bottom: 1px solid #ddd;
+}
+
+.section-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.section-description {
+    margin-top: 4px;
+
+    color: #666;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   CONTENT BLOCK
+========================= */
+
+.content-block {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.content-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+}
+
+.content-title {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.content-status {
+    color: #777;
+
+    font-size: 14px;
+}
+
+.content-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.section-textarea {
+    height: 250px;
+}
+
+.subsection-textarea {
+    height: 200px;
+}
+
+
+/* =========================
+   SUBSECTION AREA
+========================= */
+
+.subsection-area {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    padding-top: 10px;
+}
+
+.subsection-header {
+    padding-bottom: 5px;
+}
+
+.subsection-title {
+    font-size: 19px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   SUBSECTION CARD
+========================= */
+
+.subsection-card {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+
+    padding: 18px;
+
+    border: 1px solid #ddd;
+    border-radius: 8px;
+
+    background: white;
+}
+
+
+/* =========================
+   SUBSECTION ITEM HEADER
+========================= */
+
+.subsection-item-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid #eee;
+}
+
+.subsection-number {
+    font-size: 17px;
+    font-weight: bold;
+}
+
+
+/* =========================
+   ADD MAIN SECTION
+========================= */
+
+.add-section-button {
+    margin-top: 5px;
+}
+
+
+/* =========================
+   WIZARD NAVIGATION
+========================= */
+
 .wizard-buttons {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 12px;
     margin-top: 20px;
 }
 
-.wizard-buttons button {
-    padding: 10px 20px;
+.wizard-button {
+    padding: 11px 24px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.wizard-button-back {
+    background: white;
+    color: #374151;
+    border-color: #d1d5db;
+}
+
+.wizard-button-back:hover {
+    background: #f3f4f6;
+}
+
+.wizard-button-next {
+    background: #2563eb;
+    color: white;
+}
+
+.wizard-button-next:hover {
+    background: #1d4ed8;
+}
+
+/* =========================
+   PREFACE
+========================= */
+
+.preface-textarea {
+    height: 300px;
+}
+
+/* =========================
+   SUMMARY
+========================= */
+
+.summary-textarea {
+    height: 300px;
+}
+
+/* =========================
+   BIBLIOGRAPHY
+========================= */
+
+.bibliography-card {
+    background: #fff;
+}
+
+.bibliography-textarea {
+    height: 120px;
+}
+
+
+
+/* =========================
+   WIZARD PAGE NAVIGATION
+========================= */
+
+.wizard-navigation {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.wizard-nav-button {
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    color: #374151;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.wizard-nav-button:hover {
+    background: #f3f4f6;
+}
+
+.wizard-nav-button.active {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+}
+
+/* =========================
+   WIZARD CONTENT
+========================= */
+
+.wizard-content {
+    min-width: 0;
+}
+
+/* =========================
+   STICKY WIZARD BUTTONS
+========================= */
+
+.wizard-buttons {
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+    padding: 12px;
+
+    background: white;
+    border-top: 1px solid #e5e7eb;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* =========================
+   PREVIEW BUTTON
+========================= */
+
+.wizard-button-preview {
+    background: #374151;
+    color: white;
+    border-color: #374151;
+}
+
+.wizard-button-preview:hover {
+    background: #1f2937;
+    border-color: #1f2937;
+}
+
+/* =========================
+   DISABLED BUTTON
+========================= */
+
+.wizard-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+/* =========================
+   MOBILE WIZARD
+========================= */
+
+@media (max-width: 600px) {
+    .wizard-navigation {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .wizard-nav-button {
+        width: 100%;
+        padding: 10px 8px;
+    }
+
+    .wizard-buttons {
+        gap: 8px;
+        padding: 10px 6px;
+    }
+
+    .wizard-button {
+        flex: 1;
+        min-width: 0;
+        padding: 10px 8px;
+        font-size: 14px;
+    }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .form-card {
+        padding: 20px;
+    }
+
+    .section-card {
+        padding: 18px;
+    }
+
+    .section-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .subsection-item-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
 }

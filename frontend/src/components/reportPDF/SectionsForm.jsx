@@ -1,4 +1,7 @@
-function SectionsForm({ sendSections, onSectionChange }) {
+function SectionsForm({
+    sendSections,
+    onSectionChange
+}) {
 
     // ========================================
     // MAIN SECTION
@@ -18,11 +21,11 @@ function SectionsForm({ sendSections, onSectionChange }) {
         ]);
     };
 
-    
+
     const handleRemoveSection = (sectionIndex) => {
 
         const newSections = sendSections.filter(
-            (_, index) => 
+            (_, index) =>
                 index !== sectionIndex
         );
 
@@ -142,7 +145,7 @@ function SectionsForm({ sendSections, onSectionChange }) {
                     ...section,
 
                     subsections: [
-                        ...section.subsections, //?
+                        ...section.subsections,
                         newSubsection
                     ]
                 };
@@ -202,8 +205,7 @@ function SectionsForm({ sendSections, onSectionChange }) {
                             (subsection, index) => {
 
                                 if (
-                                    index !==
-                                    subsectionIndex
+                                    index !== subsectionIndex
                                 ) {
                                     return subsection;
                                 }
@@ -246,8 +248,7 @@ function SectionsForm({ sendSections, onSectionChange }) {
                             (subsection, index) => {
 
                                 if (
-                                    index !==
-                                    subsectionIndex
+                                    index !== subsectionIndex
                                 ) {
                                     return subsection;
                                 }
@@ -287,8 +288,7 @@ function SectionsForm({ sendSections, onSectionChange }) {
                             (subsection, index) => {
 
                                 if (
-                                    index !==
-                                    subsectionIndex
+                                    index !== subsectionIndex
                                 ) {
                                     return subsection;
                                 }
@@ -327,8 +327,7 @@ function SectionsForm({ sendSections, onSectionChange }) {
                             (subsection, index) => {
 
                                 if (
-                                    index !==
-                                    subsectionIndex
+                                    index !== subsectionIndex
                                 ) {
                                     return subsection;
                                 }
@@ -352,250 +351,359 @@ function SectionsForm({ sendSections, onSectionChange }) {
     // ========================================
 
     return (
-        <div>
+        <form className="form-card">
 
-            <h2>เนื้อหา</h2>
+            <div className="page-header">
+                <h2>เนื้อหา</h2>
+
+                <p>
+                    เพิ่มหัวข้อหลัก และหัวข้อย่อยของรายงาน
+                </p>
+            </div>
+
 
             {sendSections.map(
                 (section, sectionIndex) => (
 
-                    <div key={sectionIndex}>
+                    <div
+                        className="section-card"
+                        key={sectionIndex}
+                    >
 
-                        <h3>
-                            หัวข้อหลัก{" "}
-                            {sectionIndex + 1}
-                        </h3>
+                        {/* SECTION HEADER */}
 
+                        <div className="section-header">
 
-                        {/* หัวข้อหลัก */}
+                            <div>
+                                <div className="section-title">
+                                    หัวข้อหลัก {sectionIndex + 1}
+                                </div>
 
-                        <input
-                            type="text"
-                            value={section.title}
-                            onChange={(event) =>
-                                handleTitleChange(
-                                    sectionIndex,
-                                    event.target.value
-                                )
-                            }
-                            placeholder="หัวข้อหลัก"
-                            required
-                        />
-
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleRemoveSection(
-                                    sectionIndex
-                                )
-                            }
-                        >
-                            ลบหัวข้อหลัก
-                        </button>
-
-
-                        {/* เนื้อหาหัวข้อหลัก */}
-
-                        {section.content === null ? (
+                                <div className="section-description">
+                                    กรอกชื่อหัวข้อหลักของรายงาน
+                                </div>
+                            </div>
 
                             <button
+                                className="text-danger-button"
                                 type="button"
                                 onClick={() =>
-                                    handleAddContent(
+                                    handleRemoveSection(
                                         sectionIndex
                                     )
                                 }
                             >
-                                + เพิ่มเนื้อหาหัวข้อหลัก
+                                ลบหัวข้อหลัก {""} {sectionIndex+1}
                             </button>
 
-                        ) : (
+                        </div>
 
-                            <div>
 
-                                <h4>
-                                    เนื้อหาของหัวข้อหลัก {sectionIndex + 1} 
-                                </h4>
+                        {/* MAIN TITLE */}
 
-                                <textarea
-                                    value={section.content}
-                                    onChange={(event) =>
-                                        handleContentChange(
-                                            sectionIndex,
-                                            event.target.value
-                                        )
-                                    }
-                                    placeholder="เนื้อหาหัวข้อหลัก"
-                                    rows="8"
-                                />
+                        <div className="form-group">
+
+                            <label
+                                htmlFor={`section-title-${sectionIndex}`}
+                            >
+                                ชื่อหัวข้อหลัก
+                            </label>
+
+                            <input
+                                id={`section-title-${sectionIndex}`}
+                                className="form-input"
+                                type="text"
+                                value={section.title}
+                                onChange={(event) =>
+                                    handleTitleChange(
+                                        sectionIndex,
+                                        event.target.value
+                                    )
+                                }
+                                placeholder="เช่น บทนำ"
+                                required
+                            />
+
+                        </div>
+
+
+                        {/* MAIN CONTENT */}
+
+                        <div className="content-block">
+
+                            <div className="content-header">
+
+                                <div className="content-title">
+                                    เนื้อหาหัวข้อหลัก
+                                </div>
+
+                                {section.content === null && (
+                                    <span className="content-status">
+                                        ยังไม่มีเนื้อหา
+                                    </span>
+                                )}
+
+                            </div>
+
+
+                            {section.content === null ? (
 
                                 <button
+                                    className="form-button"
                                     type="button"
                                     onClick={() =>
-                                        handleRemoveContent(
+                                        handleAddContent(
                                             sectionIndex
                                         )
                                     }
                                 >
-                                    ลบเนื้อหาหัวข้อหลัก
+                                    + เพิ่มเนื้อหาหัวข้อหลัก 
                                 </button>
 
-                            </div>
-                        )}
+                            ) : (
 
+                                <div className="content-editor">
 
-                        {/* หัวข้อย่อย */}
-
-                        <h4>หัวข้อย่อย</h4>
-
-                        {section.subsections.map(
-                            (
-                                subsection,
-                                subsectionIndex
-                            ) => (
-
-                                <div
-                                    key={
-                                        subsectionIndex
-                                    }
-                                >
-
-                                    <h5>
-                                        หัวข้อย่อย{" "}
-                                        {sectionIndex + 1}.
-                                        {
-                                            
-                                            subsectionIndex +
-                                            1
-                                        }
-                                    </h5>
-
-
-                                    <input
-                                        type="text"
-                                        value={
-                                            subsection.title
-                                        }
-                                        onChange={(
-                                            event
-                                        ) =>
-                                            handleSubsectionTitleChange(
+                                    <textarea
+                                        className="form-input section-textarea"
+                                        value={section.content}
+                                        onChange={(event) =>
+                                            handleContentChange(
                                                 sectionIndex,
-                                                subsectionIndex,
-                                                event
-                                                    .target
-                                                    .value
+                                                event.target.value
                                             )
                                         }
-                                        placeholder="หัวข้อย่อย"
-                                        required
+                                        placeholder="กรอกเนื้อหาของหัวข้อหลัก"
                                     />
 
                                     <button
+                                        className="text-danger-button"
                                         type="button"
                                         onClick={() =>
-                                            handleRemoveSubsection(
-                                                sectionIndex,
-                                                subsectionIndex
+                                            handleRemoveContent(
+                                                sectionIndex
                                             )
                                         }
                                     >
-                                        ลบหัวข้อย่อย
+                                        ลบเนื้อหาหัวข้อหลัก
                                     </button>
 
+                                </div>
+                            )}
 
-                                    {/* เนื้อหาหัวข้อย่อย */}
+                        </div>
 
-                                    {subsection.content ===
-                                    null ? (
 
-                                        <button
-                                            type="button"
-                                            onClick={() =>
-                                                handleAddSubsectionContent(
-                                                    sectionIndex,
-                                                    subsectionIndex
-                                                )
-                                            }
+                        {/* SUBSECTIONS */}
+
+                        <div className="subsection-area">
+
+                            <div className="subsection-header">
+
+                                <div>
+                                    <div className="subsection-title">
+                                        หัวข้อย่อย
+                                    </div>
+
+                                    <div className="section-description">
+                                        เพิ่มหัวข้อย่อยภายในหัวข้อหลักนี้
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div className="subsections">
+
+                                {section.subsections.map(
+                                    (
+                                        subsection,
+                                        subsectionIndex
+                                    ) => (
+
+                                        <div
+                                            className="subsection-card"
+                                            key={subsectionIndex}
                                         >
-                                            + เพิ่มเนื้อหาหัวข้อย่อย
-                                        </button>
 
-                                    ) : (
+                                            {/* SUBSECTION HEADER */}
 
-                                        <div>
+                                            <div className="subsection-item-header">
 
-                                            <h6>
-                                                เนื้อหาหัวข้อย่อย
-                                                {sectionIndex + 1}.
-                                                {subsectionIndex + 1}
-                                            </h6>
+                                                <div className="subsection-number">
+                                                    {sectionIndex + 1}.
+                                                    {subsectionIndex + 1}
+                                                </div>
 
-                                            <textarea
-                                                value={
-                                                    subsection.content
-                                                }
-                                                onChange={(
-                                                    event
-                                                ) =>
-                                                    handleSubsectionContentChange(
-                                                        sectionIndex,
-                                                        subsectionIndex,
+                                                <button
+                                                    className="text-danger-button"
+                                                    type="button"
+                                                    onClick={() =>
+                                                        handleRemoveSubsection(
+                                                            sectionIndex,
+                                                            subsectionIndex
+                                                        )
+                                                    }
+                                                >
+                                                    ลบหัวข้อย่อย {""}
+                                                    {sectionIndex + 1}.
+                                                    {subsectionIndex + 1}
+                                                </button>
+
+                                            </div>
+
+
+                                            {/* SUBSECTION TITLE */}
+
+                                            <div className="form-group">
+
+                                                <label
+                                                    htmlFor={`subsection-title-${sectionIndex}-${subsectionIndex}`}
+                                                >
+                                                    ชื่อหัวข้อย่อย
+                                                </label>
+
+                                                <input
+                                                    id={`subsection-title-${sectionIndex}-${subsectionIndex}`}
+                                                    className="form-input"
+                                                    type="text"
+                                                    value={
+                                                        subsection.title
+                                                    }
+                                                    onChange={(
                                                         event
-                                                            .target
-                                                            .value
-                                                    )
-                                                }
-                                                placeholder="เนื้อหาหัวข้อย่อย"
-                                                rows="6"
-                                            />
+                                                    ) =>
+                                                        handleSubsectionTitleChange(
+                                                            sectionIndex,
+                                                            subsectionIndex,
+                                                            event.target.value
+                                                        )
+                                                    }
+                                                    placeholder="เช่น ความหมาย"
+                                                    required
+                                                />
 
-                                            <button
-                                                type="button"
-                                                onClick={() =>
-                                                    handleRemoveSubsectionContent(
-                                                        sectionIndex,
-                                                        subsectionIndex
-                                                    )
-                                                }
-                                            >
-                                                ลบเนื้อหาหัวข้อย่อย
-                                            </button>
+                                            </div>
+
+
+                                            {/* SUBSECTION CONTENT */}
+
+                                            <div className="content-block">
+
+                                                <div className="content-header">
+
+                                                    <div className="content-title">
+                                                        เนื้อหาหัวข้อย่อย {""}
+                                                        {sectionIndex + 1}.
+                                                        {subsectionIndex + 1}
+                                                    </div>
+
+                                                    {subsection.content ===
+                                                        null && (
+                                                        <span className="content-status">
+                                                            ยังไม่มีเนื้อหา
+                                                        </span>
+                                                    )}
+
+                                                </div>
+
+
+                                                {subsection.content ===
+                                                null ? (
+
+                                                    <button
+                                                        className="form-button"
+                                                        type="button"
+                                                        onClick={() =>
+                                                            handleAddSubsectionContent(
+                                                                sectionIndex,
+                                                                subsectionIndex
+                                                            )
+                                                        }
+                                                    >
+                                                        + เพิ่มเนื้อหาหัวข้อย่อย {""}
+                                                        {sectionIndex + 1}.
+                                                        {subsectionIndex + 1}
+                                                    </button>
+
+                                                ) : (
+
+                                                    <div className="content-editor">
+
+                                                        <textarea
+                                                            className="form-input subsection-textarea"
+                                                            value={
+                                                                subsection.content
+                                                            }
+                                                            onChange={(
+                                                                event
+                                                            ) =>
+                                                                handleSubsectionContentChange(
+                                                                    sectionIndex,
+                                                                    subsectionIndex,
+                                                                    event.target.value
+                                                                )
+                                                            }
+                                                            placeholder="กรอกเนื้อหาของหัวข้อย่อย"
+                                                        />
+
+                                                        <button
+                                                            className="text-danger-button"
+                                                            type="button"
+                                                            onClick={() =>
+                                                                handleRemoveSubsectionContent(
+                                                                    sectionIndex,
+                                                                    subsectionIndex
+                                                                )
+                                                            }
+                                                        >
+                                                            ลบเนื้อหาหัวข้อย่อย {""}
+                                                            {sectionIndex + 1}.
+                                                            {subsectionIndex + 1}
+                                                        </button>
+
+                                                    </div>
+                                                )}
+
+                                            </div>
 
                                         </div>
-                                    )}
+                                    )
+                                )}
 
-                                </div>
-                            )
-                        )}
+                            </div>
 
 
-                        <button
-                            type="button"
-                            onClick={() =>
-                                handleAddSubsection(
-                                    sectionIndex
-                                )
-                            }
-                        >
-                            + เพิ่มหัวข้อย่อย
-                        </button>
+                            <button
+                                className="secondary-button"
+                                type="button"
+                                onClick={() =>
+                                    handleAddSubsection(
+                                        sectionIndex
+                                    )
+                                }
+                            >
+                                + เพิ่มหัวข้อย่อย 
+                            </button>
+
+                        </div>
 
                     </div>
                 )
             )}
 
 
-            {/* เพิ่มหัวข้อหลัก */}
+            {/* ADD MAIN SECTION */}
 
             <button
+                className="form-button add-section-button"
                 type="button"
                 onClick={handleAddSection}
             >
                 + เพิ่มหัวข้อหลัก
             </button>
 
-        </div>
+        </form>
     );
 }
 

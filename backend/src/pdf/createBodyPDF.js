@@ -63,6 +63,7 @@ function createBodyPDF(
         const displayPage =
             currentPageIndex - 2 - (tocPageCount - 1);
 
+
         toc.push({
             title: section.title,
             page: displayPage,
@@ -149,6 +150,7 @@ function createBodyPDF(
 
                         const displayPage =
                             currentPageIndex - 2 - (tocPageCount - 1);
+                        
 
                         toc.push({
                             title: subsection.title,

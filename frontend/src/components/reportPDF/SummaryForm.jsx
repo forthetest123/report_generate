@@ -4,22 +4,32 @@ function SummaryForm({
 }) {
 
     return (
-        <div>
+        <form className="form-card">
 
-            <h2>สรุป</h2>
+            <div className="page-header">
+                <h2>สรุป</h2>
+                <p>เขียนสรุปเนื้อหาสำคัญของรายงาน</p>
+            </div>
 
-            <textarea
-                value={sendSummary}
-                onChange={(event) =>
-                    onSummaryChange(
-                        event.target.value
-                    )
-                }
-                placeholder="กรอกเนื้อหาสรุป"
-                rows="12"
-            />
+            <div className="form-group">
 
-        </div>
+                <label htmlFor="summary">
+                    เนื้อหาสรุป
+                </label>
+
+                <textarea
+                    id="summary"
+                    className="form-input summary-textarea"
+                    value={sendSummary}
+                    onChange={(event) =>
+                        onSummaryChange(event.target.value)
+                    }
+                    placeholder="กรอกเนื้อหาสรุป"
+                />
+
+            </div>
+
+        </form>
     );
 }
 

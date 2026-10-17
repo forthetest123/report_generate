@@ -6,9 +6,16 @@ function createBibliographyPDF(
     tocPageCount
 ) {
 
-    if (!bibliography || !bibliography.length) {
+    const validBibliography = bibliography?.filter(item => item.trim()) ?? [];
+
+    if (!validBibliography.length) {
         return;
     }
+
+    validBibliography.forEach((item) => {
+        console.log(item);
+    });
+
 
     // =========================
     // เช็กว่าหน้าสรุปอยู่หน้าไหน
@@ -42,7 +49,7 @@ function createBibliographyPDF(
     // รายการอ้างอิง
     // =========================
 
-    bibliography.forEach((item) => {
+    validBibliography.forEach((item) => {
 
         doc
             .font(regularFont)

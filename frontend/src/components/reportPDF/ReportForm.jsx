@@ -27,69 +27,109 @@ function ReportForm({ sendCover, onCoverChange }) {
     };
 
 
-    return (
-        <form>
+return (
+    <form className="form-card">
 
-            <h2>ข้อมูลหน้าปก</h2>
+        <h2>ข้อมูลหน้าปก</h2>
 
+        <div className="form-group">
+            <label htmlFor="title">ชื่อเรื่อง</label>
             <input
+                id="title"
+                className="form-input"
                 name="title"
                 value={cover.title}
                 onChange={handleChange}
-                placeholder="ชื่อเรื่อง"
+                placeholder="กรอกชื่อเรื่อง"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="teacher">อาจารย์</label>
             <input
+                id="teacher"
+                className="form-input"
                 name="teacher"
                 value={cover.teacher}
                 onChange={handleChange}
-                placeholder="อาจารย์"
+                placeholder="กรอกชื่ออาจารย์"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="student">ผู้จัดทำ</label>
             <input
+                id="student"
+                className="form-input"
                 name="student"
                 value={cover.student}
                 onChange={handleChange}
-                placeholder="ผู้จัดทำ"
+                placeholder="กรอกชื่อผู้จัดทำ"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="class">ระดับชั้น</label>
             <input
+                id="class"
+                className="form-input"
                 name="class"
                 value={cover.class}
                 onChange={handleChange}
-                placeholder="ระดับชั้น"
+                placeholder="กรอกระดับชั้น"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="subject">ชื่อวิชา</label>
             <input
+                id="subject"
+                className="form-input"
                 name="subject"
                 value={cover.subject}
                 onChange={handleChange}
-                placeholder="ชื่อวิชา"
+                placeholder="กรอกชื่อวิชา"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="semester">ภาคเรียน</label>
             <input
+                id="semester"
+                className="form-input"
                 name="semester"
                 value={cover.semester}
                 onChange={handleChange}
-                placeholder="ภาคเรียน"
+                placeholder="กรอกภาคเรียน"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="year">ปีการศึกษา</label>
             <input
+                id="year"
+                className="form-input"
                 name="year"
                 value={cover.year}
                 onChange={handleChange}
-                placeholder="ปีการศึกษา"
+                placeholder="กรอกปีการศึกษา"
             />
+        </div>
 
+        <div className="form-group">
+            <label htmlFor="college">วิทยาลัย</label>
             <input
+                id="college"
+                className="form-input"
                 name="college"
                 value={cover.college}
                 onChange={handleChange}
-                placeholder="วิทยาลัย"
+                placeholder="กรอกชื่อวิทยาลัย"
             />
+        </div>
 
-        </form>
-    );
+    </form>
+);
 }
 
 export default ReportForm;
